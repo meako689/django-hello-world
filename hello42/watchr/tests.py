@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test import Client
 from django.test.client import RequestFactory
 
 from hello.models import User
@@ -8,17 +9,39 @@ from watchr.models import RecordedRequest
 class MiddlewareTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(
+        self.u = User.objects.create_user(
             username='jacob', email='jacob@example.com', password='top_secret')
         
     def test_record_request(self):
         """Test that request object is correctly saved into db"""
-        r = self.factory.get('/')
-        r.user = self.user
+        r = self.f.get('/')
+        r.user = self.u
         m = RequestRecordMiddleware()
         self.assertEqual(RecordedRequest.objects.count(),0)
         m.process_request(r)
         self.assertEqual(RecordedRequest.objects.count(),1)
         obj = RecordedRequest.objects.all()[0]
-        self.assertEqual(obj.user, self.user)
+        self.assertEqual(obj.user, self.u)
         self.assertEqual(obj.path, '/')
+        import ipdb; ipdb.set_trace()
+
+class TestViews(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.f = RequestFactory()
+        self.u = User.objects.create_user(
+            username='jacob', email='jacob@example.com', password='top_secret')
+        m = RequestRecordMiddleware()
+
+        for i in xrange(10):
+            r = self.f.get('/')
+            r.user = self.u if i % 2 else None
+            m.process_request(r)
+
+    def test_show_request_list(self):
+        response = self.c.get(reverse('requests_list'))
+        self.assertEqual(response.status_code, 200)
+
+
+
+
