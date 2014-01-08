@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<html>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" href="{% static "css/skeleton.css"%}">
+    <link rel="stylesheet" href="{% static "css/layout.css"%}">
+    <link rel="stylesheet" href="{% static "css/style.css"%}">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+<head><title>{% block title %}Hello 42{% endblock %}</title></head>
+<body>{% block body %}
+<div class="container">
+  <h1 class="header sixteen columns">{% block subtitle %}Hello!{% endblock subtitle %}</h1>
+    {% block content %}{% endblock content %}
+</div>
+    
+  {% endblock body %}</body>
+</html>

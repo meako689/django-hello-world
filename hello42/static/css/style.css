@@ -1,0 +1,11 @@
+.header{
+    margin-top:100px;
+    margin-bottom:50px;
+}
+ 
+.userinfo{
+    clear:both;
+}
+.userinfo div{
+    line-height:27px;
+}
