@@ -6,6 +6,7 @@ from json_field import JSONField
 
 class RecordedRequest(models.Model):
     """Database stored representation of HttpRequest object"""
+    time = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
     path = models.CharField(max_length=1024)
     path_info = models.CharField(max_length=1024)

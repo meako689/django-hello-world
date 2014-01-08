@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Requests{% endblock %}
+{% block subtitle %}Latest 10 requests{% endblock %}
+{% block content %}
+<table class="sixteen columns">
+  <tr>
+    <th>id</th><th>time</th><th>method</th><th>path</th><th>user</th>
+
+  </tr>
+{% for request in request_list %}
+<tr>
+  <td>
+    {{request.id}}
+  </td>
+  <td>
+    {{request.time|date:"Y.m.d H:i:s"}}
+  </td>
+  <td>
+    {{request.method}}
+  </td>
+  <td>
+    {{request.path}}
+  </td>
+  <td>
+    {{request.user}}
+  </td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+<div class="sixteen columns">
+<a href="{% url 'home' %}"> &larr; go back</a>
+</div>
+{% endblock content %}

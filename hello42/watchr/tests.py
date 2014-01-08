@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.test import Client
 from django.test.client import RequestFactory
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import AnonymousUser
 
 from hello.models import User
 from watchr.middleware import RequestRecordMiddleware
@@ -8,7 +10,7 @@ from watchr.models import RecordedRequest
 
 class MiddlewareTestCase(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
+        self.f = RequestFactory()
         self.u = User.objects.create_user(
             username='jacob', email='jacob@example.com', password='top_secret')
         
@@ -23,7 +25,6 @@ class MiddlewareTestCase(TestCase):
         obj = RecordedRequest.objects.all()[0]
         self.assertEqual(obj.user, self.u)
         self.assertEqual(obj.path, '/')
-        import ipdb; ipdb.set_trace()
 
 class TestViews(TestCase):
     def setUp(self):
@@ -35,13 +36,13 @@ class TestViews(TestCase):
 
         for i in xrange(10):
             r = self.f.get('/')
-            r.user = self.u if i % 2 else None
+            r.user = self.u if i % 2 else AnonymousUser()
             m.process_request(r)
 
     def test_show_request_list(self):
-        response = self.c.get(reverse('requests_list'))
+        response = self.c.get(reverse('request_list'))
         self.assertEqual(response.status_code, 200)
-
-
-
-
+        self.assertContains(response, self.u.username)
+        for req in RecordedRequest.objects.order_by('-id')[:10]:
+            self.assertContains(response, req.id)
+            self.assertContains(response, req.path)
