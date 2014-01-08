@@ -9,9 +9,12 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_PATH = os.path.join(BASE_DIR, 'hello42')
 
+sys.path.append(PROJECT_PATH)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -23,6 +26,10 @@ SECRET_KEY = '5qcrhmg^*h^y@^ab5svqh4v1+6)fa-6gs8hkrn8x2j%t85=(!v'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+
+TEMPLATE_DIRS = (
+    PROJECT_PATH + '/templates/'
+)
 
 ALLOWED_HOSTS = []
 
@@ -81,5 +88,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_PATH, "static"),
+)
 
 AUTH_USER_MODEL = 'hello.User'

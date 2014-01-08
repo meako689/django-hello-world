@@ -31,8 +31,8 @@ class UserProfileTestCase(TestCase):
         self.assertContains(response, self.u.jabber)
         self.assertContains(response, self.u.skype)
         self.assertContains(response, self.u.bio)
-        self.assertContains(response, self.u.other)
-        self.assertContains(response, self.date_of_birth.strftime("%Y-%m-%d"))
+        self.assertContains(response, self.u.other_contacts)
+        self.assertContains(response, self.u.date_of_birth.strftime("%Y-%m-%d"))
 
 
 
