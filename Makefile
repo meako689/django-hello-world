@@ -1,15 +1,17 @@
 MANAGE=django-admin.py
+SETTINGS=hello42.settings
 
 test:
-	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=hello42.settings $(MANAGE) test
+	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) test
 
 run:
-	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=hello42.settings $(MANAGE) runserver
+	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) runserver
 
 syncdb:
-	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=hello42.settings $(MANAGE) syncdb --noinput
+	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) syncdb --noinput
+	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) migrate
 
 migrate:
-	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=hello42.settings $(MANAGE) migrate
+	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=$(SETTINGS) $(MANAGE) migrate
 
 .PHONY: test syncdb migrate
