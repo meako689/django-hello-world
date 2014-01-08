@@ -43,6 +43,6 @@ class TestViews(TestCase):
         response = self.c.get(reverse('request_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.u.username)
-        for req in RecordedRequest.objects.order_by('-id')[:10]:
+        for req in RecordedRequest.objects.all()[:10]:
             self.assertContains(response, req.id)
             self.assertContains(response, req.path)
