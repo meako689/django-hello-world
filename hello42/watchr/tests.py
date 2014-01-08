@@ -46,3 +46,9 @@ class TestViews(TestCase):
         for req in RecordedRequest.objects.all()[:10]:
             self.assertContains(response, req.id)
             self.assertContains(response, req.path)
+
+class TestContextProcessor(TestCase):
+    def test_processing_context(self):
+        c = Client()
+        resp = c.get('/')
+        self.assertTrue('settings' in resp.context)
