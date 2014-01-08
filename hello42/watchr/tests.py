@@ -45,10 +45,10 @@ class TestViews(TestCase):
         self.assertContains(response, self.u.username)
         self.assertEqual(RecordedRequest.objects.count(),11)
         for req in RecordedRequest.objects.all()[:10]:
-            self.assertContains(response, req.id)
             self.assertContains(response, req.path)
+            self.assertTrue(req in response.context['request_list'])
         unwanted_req = RecordedRequest.objects.latest('id')
-        self.assertNotContains(response, unwanted_req.id)
+        self.assertFalse(unwanted_req in response.context['request_list'])
 
 class TestContextProcessor(TestCase):
     def test_processing_context(self):
