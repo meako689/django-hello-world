@@ -11,3 +11,5 @@ syncdb:
 
 migrate:
 	PYTHONPATH=`pwd` DJANGO_SETTINGS_MODULE=hello42.settings $(MANAGE) migrate
+
+.PHONY: test syncdb migrate
