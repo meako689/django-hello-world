@@ -18,7 +18,15 @@
 <div class="container">
   <h1 class="header sixteen columns">{% block subtitle %}Hello!{% endblock subtitle %}</h1>
     {% block content %}{% endblock content %}
+
+<div class="footer">
+{% block footer %}
+{% if settings.DEBUG %}
+  <div class="sixteen columns small">Debug : True </div>
+{% endif %}
+{% endblock footer %}
 </div>
     
+</div>
   {% endblock body %}</body>
 </html>

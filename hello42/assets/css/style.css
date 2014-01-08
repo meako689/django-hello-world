@@ -9,3 +9,10 @@
 .userinfo div{
     line-height:27px;
 }
+
+.footer {
+    margin-top:150px;
+    margin-bottom:50px;
+    font-size:12px;
+    text-align:right;
+}
