@@ -2,3 +2,4 @@ Django==1.6.1
 South==0.8.4
 django-annoying==0.7.9
 wsgiref==0.1.2
+django-json-field==0.5.5

@@ -46,9 +46,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'json_field',
+    'south',
     'hello42.hello',
     'hello42.watchr',
-    'json_field',
 )
 
 MIDDLEWARE_CLASSES = (
