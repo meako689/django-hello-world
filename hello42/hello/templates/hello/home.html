@@ -4,13 +4,14 @@
 
  {% for user in users %}
  <div class="userinfo">
-   <div class="two columns">{{ user.first_name }} </div>
-   <div class="fourteen columns">{{ user.last_name }} </div>
-   {% if user.date_of_birth%}<div class="eight columns">born:{{ user.date_of_birth|date:"Y-m-d" }}</div>{% endif %}
+   <div class="eight columns">{{ user.first_name }} </div>
+   {% if user.last_name%}<div class="eight columns">Contacts: </div>{%endif%}
+   <div class="eight columns">{{ user.last_name }} </div>
    {% if user.email%}<div class="eight columns">email:{{ user.email }} </div>{% endif %}
+   {% if user.date_of_birth%}<div class="eight columns">born:{{ user.date_of_birth|date:"Y-m-d" }}</div>{% endif %}
    {% if user.skype%}<div class="eight columns">skype:{{ user.skype }} </div>{% endif %}
-   {% if user.jabber%}<div class="eight columns">jabber:{{ user.jabber }} </div>{% endif %}
    {% if user.bio%}<div class="eight columns">bio:{{ user.bio }} </div>{% endif %}
+   {% if user.jabber%}<div class="eight columns">jabber:{{ user.jabber }} </div>{% endif %}
    {% if user.other_contacts%}<div class="eight columns">other:{{ user.other_contacts }} </div>{% endif %}
    <div class="sixteen columns"> </div>
 </div>
