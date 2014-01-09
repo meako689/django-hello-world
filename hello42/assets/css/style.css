@@ -23,3 +23,16 @@ form.usereditform{
 form.usereditform label{
 
 }
+
+.loginbtn{
+    position: absolute;
+    top:30px;
+    right:50px;
+    font-size:10px;
+}
+
+.content {
+    line-height:26px;
+
+}
+

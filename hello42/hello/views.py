@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse_lazy
 
@@ -17,7 +19,7 @@ class UserEditView(UpdateView):
     form_class = UserForm
     success_url = reverse_lazy('home')
 
-    def get_context_data(self, **kwargs):
-        context = super(UserEditView, self).get_context_data(**kwargs)
-        context['half'] = len(context['form'].fields)/2
-        return context
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(UserEditView, self).dispatch(*args, **kwargs)
+

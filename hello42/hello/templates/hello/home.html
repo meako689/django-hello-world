@@ -2,19 +2,29 @@
 
 {% block content %}
 
- {% for user in users %}
- <div class="userinfo">
-   <div class="eight columns">{{ user.first_name }} </div>
-   {% if user.last_name%}<div class="eight columns">Contacts: </div>{%endif%}
-   <div class="eight columns">{{ user.last_name }} </div>
-   {% if user.email%}<div class="eight columns">email:{{ user.email }} </div>{% endif %}
-   {% if user.date_of_birth%}<div class="eight columns">born:{{ user.date_of_birth|date:"Y-m-d" }}</div>{% endif %}
-   {% if user.skype%}<div class="eight columns">skype:{{ user.skype }} </div>{% endif %}
-   {% if user.bio%}<div class="eight columns">bio:{{ user.bio }} </div>{% endif %}
-   {% if user.jabber%}<div class="eight columns">jabber:{{ user.jabber }} </div>{% endif %}
-   {% if user.other_contacts%}<div class="eight columns">other:{{ user.other_contacts }} </div>{% endif %}
+ {% for user_obj in users %}
+ {% if user_obj.first_name %}
+ <div class="user info">
+   <div class="eight columns">
+   <div class="seven columns">{{ user_obj.first_name }} </div>
+   <div class="seven columns">{{ user_obj.last_name }} </div>
+   {% if user_obj.date_of_birth%}<div class="seven columns">born:{{ user_obj.date_of_birth|date:"Y-m-d" }}</div>{% endif %}
+   {% if user_obj.photo %}<div class="six columns"><img src="{{ user_obj.photo.url }}"> </div>{% endif %}
+ </div>
+   <div class="eight columns">
+   {% if user_obj.email%}<div class="seven columns">email:{{ user_obj.email }} </div>{% endif %}
+   {% if user_obj.skype%}<div class="seven columns">skype:{{ user_obj.skype }} </div>{% endif %}
+   {% if user_obj.bio%}<div class="seven columns">bio:{{ user_obj.bio }} </div>{% endif %}
+   {% if user_obj.jabber%}<div class="seven columns">jabber:{{ user_obj.jabber }} </div>{% endif %}
+   {% if user_obj.other_contacts%}<div class="seven columns">other:{{ user_obj.other_contacts }} </div>{% endif %}
+   {% if user.is_authenticated %}
+     <a class="seven columns" href="{% url 'user_edit' pk=user_obj.id %}">edit</a>
+   {% endif %}
+ </div>
    <div class="sixteen columns"> </div>
+   <hr/>
 </div>
+{% endif %}
 {% endfor %}
 <hr>
 <div class="sixteen columns">

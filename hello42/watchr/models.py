@@ -21,7 +21,7 @@ class RecordedRequest(models.Model):
     @classmethod
     def from_request(cls, request):
         user = request.user if request.user.is_authenticated() else None
-        obj = cls.objects.create(body=request.body,
+        obj = cls.objects.create(body='',
                 path=request.path,
                 path_info=request.path_info,
                 method=request.method,
