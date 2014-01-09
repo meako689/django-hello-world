@@ -1,9 +1,11 @@
+import os
+
 from datetime import datetime
 
 from django.core.urlresolvers import reverse
 from django.test import (TestCase,Client)
 
-from hello42.hello.models import User
+from hello42.hello.models import User, DEFAULT_DIMENSIONS
 
 # Create your tests here.
 
@@ -49,3 +51,22 @@ class UserProfileTestCase(TestCase):
         u = User.objects.get(pk=self.u.pk)
         self.assertEqual(u.last_name, 'Wrrroooom')
 
+    def test_edit_a_photo(self):
+        """Upload a photo and check that it will resize"""
+        url = reverse('user_edit', kwargs={'pk':self.u.pk})
+        self.c.login(username=self.u.username, password='pass')
+        response = self.c.get(url)
+        form = response.context['form']
+        data = form.initial
+        f = open(os.path.join(
+            os.path.dirname(__file__),
+            'testfiles/1024magrittesonofman.jpg')
+        )
+        data['photo'] = f
+        self.c.post(url, data)
+        response = self.c.get(url)
+        self.assertContains(response, '1024magrittesonofman')
+        u = User.objects.get(pk=self.u.pk)
+        self.assertTrue(u.photo)
+        self.assertEqual((u.photo.width,u.photo.height), DEFAULT_DIMENSIONS)
+        os.unlink(u.photo.path)

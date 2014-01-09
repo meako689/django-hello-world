@@ -10,8 +10,7 @@ from django.contrib.auth.models import AbstractUser
 
 def upload_to(instance, filename):
     return 'user_pics/'+str(instance.pk)+'/'+filename
-DEFAULT_DIMENSIONS_X = 220
-DEFAULT_DIMENSIONS_Y = 265
+DEFAULT_DIMENSIONS = (220, 265)
 
 class User(AbstractUser):
     date_of_birth = models.DateField(_('date of birth'),
@@ -48,21 +47,14 @@ class UserForm(forms.ModelForm):
                   'bio',
           ]
 
-    #def clean_photo(self):
-        #"""docstring for clean_photo"""
-        #import ipdb; ipdb.set_trace()
-
 
 
 def resize_image(sender, **kwargs):
     user = kwargs["instance"]
     if user.photo:
         filename = user.photo.path
-        # prepend .orig before extension
-        origfilename = re.sub(r'(.*)\.(.*)',r'\1.orig.\2',filename)
         im = Image.open(filename)
-        im.save(origfilename)
-        im.thumbnail((DEFAULT_DIMENSIONS_X, DEFAULT_DIMENSIONS_Y),Image.ANTIALIAS)
+        im.thumbnail(DEFAULT_DIMENSIONS,Image.ANTIALIAS)
         im.save(filename)
 
 
