@@ -8,7 +8,13 @@ Edit me!
   <div class="eight columns">
   {% for field in form %}
   <label for="{field.name"} class="two columns">{{field.label}}</label>
-  <div class="four columns">{{field}}</div>  
+  <div class="four columns">
+  {% if field.errors %}
+    <div class="error">
+  {{field.errors}}
+  </div>
+  {% endif %}
+    {{field}}</div>  
   {% if field.name == 'photo' %}
   {% if form.instance.photo %}
   <label class="two columns">Photo preview:</label>
@@ -25,6 +31,6 @@ Edit me!
 </form>
 <hr>
 <div class="sixteen columns">
-<a href="{% url 'home' %}"> &rarr; Go back</a>
+<a href="{% url 'home' %}"> &larr; Go back</a>
 </div>
 {% endblock content %}
