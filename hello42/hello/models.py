@@ -1,8 +1,6 @@
 import Image
-import re
 
 from django import forms
-from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
@@ -53,9 +51,9 @@ def resize_image(sender, **kwargs):
     user = kwargs["instance"]
     if user.photo:
         filename = user.photo.path
-        im = Image.open(filename)
-        im.thumbnail(DEFAULT_DIMENSIONS,Image.ANTIALIAS)
-        im.save(filename)
+        img = Image.open(filename)
+        img.thumbnail(DEFAULT_DIMENSIONS, Image.ANTIALIAS)
+        img.save(filename)
 
 
 post_save.connect(resize_image, sender=User)
