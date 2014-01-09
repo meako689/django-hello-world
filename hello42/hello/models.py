@@ -1,5 +1,6 @@
-from django.utils.translation import ugettext_lazy as _
+from django import forms
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.models import AbstractUser
 
@@ -12,3 +13,19 @@ class User(AbstractUser):
 
     class Meta:
         abstract = False
+
+class UserForm(forms.ModelForm):
+    """edit user"""
+    class Meta:
+        model = User
+        fields = ['first_name',
+                  'last_name',
+                  'date_of_birth',
+                  'email',
+                  'jabber',
+                  'skype',
+                  'other_contacts',
+                  'bio',
+          ]
+
+

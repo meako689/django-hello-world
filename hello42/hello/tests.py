@@ -34,6 +34,14 @@ class UserProfileTestCase(TestCase):
         self.assertContains(response, self.u.other_contacts)
         self.assertContains(response, self.u.date_of_birth.strftime("%Y-%m-%d"))
 
-
-
+    def test_edit_page(self):
+        url = reverse('user_edit', kwargs={'pk':self.u.pk})
+        response = self.c.get(url)
+        self.assertEqual(response.status_code, 200)
+        form = response.context['form']
+        data = form.initial
+        data['last_name'] = 'Wrrroooom'
+        self.c.post(url, data)
+        u = User.objects.get(pk=self.u.pk)
+        self.assertEqual(u.last_name, 'Wrrroooom')
 
