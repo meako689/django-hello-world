@@ -44,7 +44,7 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.u.username)
         self.assertEqual(RecordedRequest.objects.count(),11)
-        for req in RecordedRequest.objects.all()[:10]:
+        for req in RecordedRequest.objects.order_by('time')[:10]:
             self.assertContains(response, req.path)
             self.assertTrue(req in response.context['request_list'])
         unwanted_req = RecordedRequest.objects.latest('id')
