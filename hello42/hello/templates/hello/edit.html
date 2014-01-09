@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block subtitle %}
+Edit me!
+{% endblock %}
+{% block content %}
+<form class="usereditform" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+  <div class="eight columns">
+  {% for field in form %}
+  <label for="{field.name"} class="two columns">{{field.label}}</label>
+  <div class="four columns">{{field}}</div>  
+  {% if field.name == 'photo' %}
+  {% if form.instance.photo %}
+  <label class="two columns">Photo preview:</label>
+  <img src="{{form.instance.photo.url}}">
+  {% endif %}
+  </div>
+  <div class="eight columns">
+  {% endif  %}
+  {% endfor %}
+    </div>
+    <div class="sixteen columns">
+    <input type="submit" value="Update" />
+  </div>
+</form>
+<hr>
+<div class="sixteen columns">
+<a href="{% url 'home' %}"> &rarr; Go back</a>
+</div>
+{% endblock content %}

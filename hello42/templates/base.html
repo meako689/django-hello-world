@@ -17,8 +17,15 @@
 <head><title>{% block title %}Hello 42{% endblock %}</title></head>
 <body>{% block body %}
 <div class="container">
+{% if not user.is_authenticated %}
+<a class="loginbtn" href="{% url 'auth_login' %}">login</a>
+{% else %}
+<a class="loginbtn" href="{% url 'auth_logout' %}">logout</a>
+{% endif %}
   <h1 class="header sixteen columns">{% block subtitle %}Hello!{% endblock subtitle %}</h1>
+  <div class="content">
     {% block content %}{% endblock content %}
+  </div>
 
 <div class="footer">
 {% block footer %}
