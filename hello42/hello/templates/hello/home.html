@@ -21,7 +21,7 @@
    {% if user.is_authenticated %}
    <div class="seven columns">
      <a  href="{% url 'user_edit' pk=user_obj.id %}">edit</a>
-  {% if user.is_staff%}
+  {% if user.is_staff %}
    | 
      <a  href="{% admin_edit user_obj %}">admin</a>
    {% endif %}
