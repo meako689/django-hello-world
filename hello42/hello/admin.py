@@ -75,7 +75,10 @@ class MyUserAdmin(UserAdmin):
                 'other_contacts',
                 'bio',
                 )}),
-        ('Permissions', {'fields': ('is_staff',)}),
+        (('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+
+        (('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
