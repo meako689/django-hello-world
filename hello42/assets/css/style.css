@@ -3,8 +3,19 @@
     margin-bottom:50px;
 }
  
+.clearfix:after {
+   content: " "; /* Older browser do not support empty content */
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
 .userinfo{
     clear:both;
+    position: relative;
+    padding-bottom:20px;
+    margin-bottom:100px;
+    border-bottom:1px dotted grey;
 }
 .userinfo div{
     line-height:27px;
@@ -13,6 +24,7 @@
 .footer {
     margin-top:150px;
     margin-bottom:50px;
+    padding-bottom:20px;
     font-size:12px;
     text-align:right;
 }
@@ -24,11 +36,12 @@ form.usereditform label{
 
 }
 
-.loginbtn{
-    position: absolute;
-    top:30px;
-    right:50px;
-    font-size:10px;
+
+.editbtns{
+    position:absolute;
+    top:-40px;
+    right:0px;
+    font-size:11px;
 }
 
 .content {
