@@ -40,3 +40,10 @@ form.usereditform label{
     color:red;
     font-size:11px;
 }
+
+.ajaxsubmit{
+    color:white;
+}
+.ajaxsubmit.enabled{
+    color:black!important;
+}

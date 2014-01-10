@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 
-from widgets import CalendarDateInput
+from widgets import CalendarDateInput, CustomClearableFileInput
 
 def upload_to(instance, filename):
     return 'user_pics/'+str(instance.pk)+'/'+filename
@@ -48,7 +48,16 @@ class UserForm(forms.ModelForm):
           ]
         widgets = {
             'date_of_birth': CalendarDateInput,
+            'photo': CustomClearableFileInput,
         }
+
+
+    class Media:
+        js = ('js/jquery-1.9.1.js',
+            'js/jquery.form.js',
+            'js/UserForm.js')
+
+            
 
 
 def resize_image(sender, **kwargs):
