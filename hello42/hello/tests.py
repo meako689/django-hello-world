@@ -70,3 +70,13 @@ class UserProfileTestCase(TestCase):
         self.assertTrue(u.photo)
         self.assertEqual((u.photo.width,u.photo.height), DEFAULT_DIMENSIONS)
         os.unlink(u.photo.path)
+
+    def test_admin_edit_link(self):
+        self.c.login(username=self.u.username, password='pass')
+        response = self.c.get(reverse('home'))
+        adminlink='href="/admin/hello/user/{id}/"'.format(id=self.u.id)
+        self.assertTrue(adminlink in response.content)
+        self.u.is_staff = False
+        self.u.save()
+        response = self.c.get(reverse('home'))
+        self.assertFalse(adminlink in response.content)
