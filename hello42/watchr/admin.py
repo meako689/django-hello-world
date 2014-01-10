@@ -1,3 +1,5 @@
 from django.contrib import admin
+from models import RecordedRequest, ModelChangeRecord
 
-# Register your models here.
+admin.site.register(RecordedRequest)
+admin.site.register(ModelChangeRecord)
