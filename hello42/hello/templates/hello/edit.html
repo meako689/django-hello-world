@@ -5,9 +5,10 @@ Edit me!
 {% endblock %}
 {% block content %}
 <form class="usereditform" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+  {{form.media}}
   <div class="eight columns">
   {% for field in form %}
-  <label for="{field.name"} class="two columns">{{field.label}}</label>
+  <label for="{{field.name}}" class="two columns">{{field.label}}</label>
   <div class="four columns">
   {% if field.errors %}
     <div class="error">

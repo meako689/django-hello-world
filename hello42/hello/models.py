@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 
+from widgets import CalendarDateInput
+
 def upload_to(instance, filename):
     return 'user_pics/'+str(instance.pk)+'/'+filename
 DEFAULT_DIMENSIONS = (220, 265)
@@ -44,7 +46,9 @@ class UserForm(forms.ModelForm):
                   'other_contacts',
                   'bio',
           ]
-
+        widgets = {
+            'date_of_birth': CalendarDateInput,
+        }
 
 
 def resize_image(sender, **kwargs):
