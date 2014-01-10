@@ -39,6 +39,7 @@ $('#photo-clear_id').removeAttr('checked');
                             btn.html('Submit');
                         }
                     }
+                    $('#photo-clear_id').removeAttr('checked');
                 }
             };
             $(this).ajaxSubmit(options);
