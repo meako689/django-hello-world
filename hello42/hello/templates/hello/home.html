@@ -5,7 +5,16 @@
 
  {% for user_obj in users %}
  {% if user_obj.first_name %}
- <div class="user info">
+ <div class="userinfo">
+   <div class="editbtns">
+   {% if user.is_authenticated %}
+     <a  href="{% url 'user_edit' pk=user_obj.id %}">edit</a>
+  {% if user.is_staff %}
+   |
+     <a  href="{% admin_edit user_obj %}">admin</a>
+   {% endif %}
+   {% endif %}
+ </div>
    <div class="eight columns">
    <div class="seven columns">{{ user_obj.first_name }} </div>
    <div class="seven columns">{{ user_obj.last_name }} </div>
@@ -18,18 +27,8 @@
    {% if user_obj.jabber%}<div class="seven columns">jabber:{{ user_obj.jabber }} </div>{% endif %}
    {% if user_obj.other_contacts%}<div class="seven columns">other:{{ user_obj.other_contacts }} </div>{% endif %}
    {% if user_obj.bio%}<div class="seven columns">bio:{{ user_obj.bio }} </div>{% endif %}
-   {% if user.is_authenticated %}
-   <div class="seven columns">
-     <a  href="{% url 'user_edit' pk=user_obj.id %}">edit</a>
-  {% if user.is_staff %}
-   | 
-     <a  href="{% admin_edit user_obj %}">admin</a>
-   {% endif %}
  </div>
-   {% endif %}
- </div>
-   <div class="sixteen columns"> </div>
-   <hr/>
+ <div class="clearfix"></div>
 </div>
 {% endif %}
 {% endfor %}
