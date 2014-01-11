@@ -108,3 +108,12 @@ MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
 MEDIA_URL = "/media/"
 LOGIN_REDIRECT_URL = '/accounts/login/'
 AUTH_USER_MODEL = 'hello.User'
+
+#models that you dont want to track
+EXCEPT_MODELS = ['ModelChangeRecord',
+                'RecordedRequest',
+                'ContentType',
+                'Session',
+                'LogEntry',
+                'Permission',
+                'MigrationHistory']

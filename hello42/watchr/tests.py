@@ -6,7 +6,7 @@ from django.contrib.auth.models import AnonymousUser
 
 from hello.models import User
 from watchr.middleware import RequestRecordMiddleware
-from watchr.models import RecordedRequest
+from watchr.models import RecordedRequest, ModelChangeRecord
 
 class MiddlewareTestCase(TestCase):
     def setUp(self):
@@ -55,3 +55,25 @@ class TestContextProcessor(TestCase):
         c = Client()
         resp = c.get('/')
         self.assertTrue('settings' in resp.context)
+
+class TestSignalWatcher(TestCase):
+    def test_create_uodate_delete(self):
+        """everything should be recorded"""
+        self.assertEqual(ModelChangeRecord.objects.count(),0)
+        self.u = User.objects.create_user(
+            username='jacob2', email='jacob@example.com', password='top_secret')
+        self.assertEqual(ModelChangeRecord.objects.count(),1)
+        rec = ModelChangeRecord.objects.all()[0]
+        self.assertEqual(rec.action, 1)
+        self.assertEqual(rec.content_object, self.u)
+        self.u.first_name="blaaah"
+        self.u.save()
+        self.assertEqual(ModelChangeRecord.objects.count(),2)
+        rec = ModelChangeRecord.objects.all()[1]
+        self.assertEqual(rec.action, 2)
+        self.assertEqual(rec.content_object, self.u)
+        self.u.delete()
+        self.assertEqual(ModelChangeRecord.objects.count(),3)
+        rec = ModelChangeRecord.objects.all()[2]
+        self.assertEqual(rec.action, 3)
+        self.assertEqual(rec.shelfed_object[0]['pk'], 1)
