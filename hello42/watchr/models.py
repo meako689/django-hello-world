@@ -71,12 +71,13 @@ class ModelChangeRecord(models.Model):
         )
 
 def record_create_update(sender, **kwargs):
-    if kwargs['created']:
-        action = 1
-    else:
-        action = 2
-    obj = kwargs['instance']
-    ModelChangeRecord.create_rec(action, obj)
+    if not kwargs['raw']:
+        if kwargs['created']:
+            action = 1
+        else:
+            action = 2
+        obj = kwargs['instance']
+        ModelChangeRecord.create_rec(action, obj)
 
 def record_delete(sender, **kwargs):
     ModelChangeRecord.create_rec(action=3, obj=kwargs['instance'])
