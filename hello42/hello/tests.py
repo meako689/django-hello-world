@@ -1,9 +1,11 @@
 import os
+import subprocess
 
 from datetime import datetime
 
 from django.core.urlresolvers import reverse
 from django.test import (TestCase,Client)
+from django.conf import settings
 
 from hello42.hello.models import User, DEFAULT_DIMENSIONS
 
@@ -80,3 +82,11 @@ class UserProfileTestCase(TestCase):
         self.u.save()
         response = self.c.get(reverse('home'))
         self.assertFalse(adminlink in response.content)
+
+    def test_modellist_script(self):
+        """test shell script which prints list of models"""
+        path_to_script = settings.BASE_DIR+'/listmodels.sh'
+        subprocess.call(['#/usr/bin/env bash '+path_to_script])
+        import ipdb; ipdb.set_trace()
+
+
