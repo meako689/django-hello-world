@@ -4,7 +4,12 @@
 {% block content %}
 <table class="sixteen columns">
   <tr>
-    <th>id</th><th>time</th><th>method</th><th>path</th><th>user</th>
+    {% url 'request_list' as target_url %}
+    <th><a href="{%url 'request_list'%}?order_by=id">↓ </a>id<a href="{{target_url}}?order_by=-id"> ↑</a></th>
+    <th><a href="{%url 'request_list'%}?order_by=time">↓ </a>time<a href="{%url 'request_list'%}?order_by=-time"> ↑</a></th>
+    <th><a href="{%url 'request_list'%}?order_by=method">↓ </a>method<a href="{%url 'request_list'%}?order_by=-method"> ↑</a></th>
+    <th><a href="{%url 'request_list'%}?order_by=path">↓ </a>path<a href="{%url 'request_list'%}?order_by=-path"> ↑</a></th>
+    <th><a href="{%url 'request_list'%}?order_by=user">↓ </a>user<a href="{%url 'request_list'%}?order_by=-user"> ↑</a></th>
 
   </tr>
 {% for request in request_list %}

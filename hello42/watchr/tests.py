@@ -83,6 +83,8 @@ class TestViews(TestCase):
 
         response = self.c.get(reverse('request_list'), {'order_by':'wat'})
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(RecordedRequest.objects.count(),14)
+        self.assertEqual(len(response.context['request_list']), 10)
 
 class TestContextProcessor(TestCase):
     def test_processing_context(self):
