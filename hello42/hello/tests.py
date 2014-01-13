@@ -1,4 +1,5 @@
 import os
+import datetime
 import subprocess
 
 from datetime import datetime
@@ -86,7 +87,19 @@ class UserProfileTestCase(TestCase):
     def test_modellist_script(self):
         """test shell script which prints list of models"""
         path_to_script = settings.BASE_DIR+'/listmodels.sh'
-        subprocess.call(['#/usr/bin/env bash '+path_to_script])
-        import ipdb; ipdb.set_trace()
+        rx=subprocess.Popen(['/usr/bin/env', 'bash',
+            path_to_script],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = rx.stdout.read(), rx.stderr.read()
+        self.assertEqual(err,'')
+        self.assertNotEqual(out,'')
+        self.assertTrue('Session:1' in out)
+        filename = datetime.now().date().strftime('%d_%m_%Y')+'.dat'
+        filename = settings.BASE_DIR+'/'+filename
+        file = open(filename, 'r')
+        res = file.read()
+        self.assertTrue('error' in res)
+        self.assertTrue('Session:1' in res)
+        file.close()
+        os.unlink(filename)
 
 
