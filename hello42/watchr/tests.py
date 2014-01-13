@@ -50,6 +50,40 @@ class TestViews(TestCase):
         unwanted_req = RecordedRequest.objects.latest('id')
         self.assertFalse(unwanted_req in response.context['request_list'])
 
+    def test_ordering_for_request_list(self):
+        response = self.c.get(reverse('request_list'), {'order_by':'user'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.u.username)
+        self.assertEqual(RecordedRequest.objects.count(),11)
+        for req in RecordedRequest.objects.order_by('user')[:10]:
+            self.assertContains(response, req.path)
+            self.assertTrue(req in response.context['request_list'])
+        unwanted_req = RecordedRequest.objects.latest('user')
+        self.assertFalse(unwanted_req in response.context['request_list'])
+
+        response = self.c.get(reverse('request_list'), {'order_by':'-user'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.u.username)
+        self.assertEqual(RecordedRequest.objects.count(),12)
+        for req in RecordedRequest.objects.order_by('-user')[:10]:
+            self.assertContains(response, req.path)
+            self.assertTrue(req in response.context['request_list'])
+        unwanted_req = RecordedRequest.objects.earliest('user')
+        self.assertFalse(unwanted_req in response.context['request_list'])
+
+        response = self.c.get(reverse('request_list'), {'order_by':'path'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.u.username)
+        self.assertEqual(RecordedRequest.objects.count(),13)
+        for req in RecordedRequest.objects.order_by('path')[:10]:
+            self.assertContains(response, req.path)
+            self.assertTrue(req in response.context['request_list'])
+        unwanted_req = RecordedRequest.objects.latest('path')
+        self.assertFalse(unwanted_req in response.context['request_list'])
+
+        response = self.c.get(reverse('request_list'), {'order_by':'wat'})
+        self.assertEqual(response.status_code, 200)
+
 class TestContextProcessor(TestCase):
     def test_processing_context(self):
         c = Client()
