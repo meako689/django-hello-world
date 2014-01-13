@@ -84,21 +84,41 @@ class UserProfileTestCase(TestCase):
         response = self.c.get(reverse('home'))
         self.assertFalse(adminlink in response.content)
 
+class ScriptingTestCase(TestCase):
+    def setUp(self):
+        """Manually set up environment"""
+        self.env = os.environ.copy()
+        self.env['DJANGO_SETTINGS_MODULE'] = 'hello42.hello.testfiles.settings_listmodels'
+        self.proc_args = {'cwd':settings.BASE_DIR,
+                'env':self.env,
+                'stdout':subprocess.PIPE,
+                'stderr':subprocess.PIPE,
+        }
+        subprocess.call(['/usr/bin/env', 'python', 'manage.py', 'syncdb',
+            '--noinput'], **self.proc_args)
+
+        subprocess.call(['/usr/bin/env', 'python', 'manage.py', 'migrate'],
+                **self.proc_args)
+
+    def tearDown(self):
+        os.unlink(os.path.dirname(__file__)+'/testfiles/db.sqlite3')
+
     def test_modellist_script(self):
         """test shell script which prints list of models"""
         path_to_script = settings.BASE_DIR+'/listmodels.sh'
-        rx=subprocess.Popen(['/usr/bin/env', 'bash',
-            path_to_script],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        rx=subprocess.Popen(['/usr/bin/env', 'bash', path_to_script],
+                cwd=settings.BASE_DIR, env=self.env,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = rx.stdout.read(), rx.stderr.read()
         self.assertEqual(err,'')
         self.assertNotEqual(out,'')
-        self.assertTrue('Session:1' in out)
+        self.assertTrue('User:' in out)
         filename = datetime.now().date().strftime('%d_%m_%Y')+'.dat'
         filename = settings.BASE_DIR+'/'+filename
         file = open(filename, 'r')
         res = file.read()
         self.assertTrue('error' in res)
-        self.assertTrue('Session:1' in res)
+        self.assertTrue('User:' in res)
         file.close()
         os.unlink(filename)
 
