@@ -107,8 +107,7 @@ class ScriptingTestCase(TestCase):
         """test shell script which prints list of models"""
         path_to_script = settings.BASE_DIR+'/listmodels.sh'
         rx=subprocess.Popen(['/usr/bin/env', 'bash', path_to_script],
-                cwd=settings.BASE_DIR, env=self.env,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                **self.proc_args)
         out, err = rx.stdout.read(), rx.stderr.read()
         self.assertEqual(err,'')
         self.assertNotEqual(out,'')
