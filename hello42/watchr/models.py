@@ -11,22 +11,23 @@ from django.conf import settings
 
 class RecordedRequest(models.Model):
     """Database stored representation of HttpRequest object"""
+    priority = models.SmallIntegerField(default=0)
     time = models.DateTimeField(auto_now_add=True)
-    body = models.TextField()
+    body = models.TextField(null=True,blank=True)
     path = models.CharField(max_length=1024)
     path_info = models.CharField(max_length=1024)
     method = models.CharField(max_length=4)
     encoding = models.CharField(max_length=16,
                 null=True,blank=True)
-    get = JSONField()
-    post = JSONField()
-    cookies = JSONField()
+    get = JSONField(null=True,blank=True)
+    post = JSONField(null=True,blank=True)
+    cookies = JSONField(null=True,blank=True)
     user = models.ForeignKey(User,blank=True, null=True)
 
     @classmethod
     def from_request(cls, request):
         user = request.user if request.user.is_authenticated() else None
-        obj = cls.objects.create(body='',
+        obj = cls.objects.create(body=request.body.encode('base64'),
                 path=request.path,
                 path_info=request.path_info,
                 method=request.method,

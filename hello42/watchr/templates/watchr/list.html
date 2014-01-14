@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% load hello_tags %}
 {% block title %}Requests{% endblock %}
 {% block subtitle %}Latest 10 requests{% endblock %}
 {% block content %}
 <table class="sixteen columns">
   <tr>
     {% url 'request_list' as target_url %}
+    <th><a href="{%url 'request_list'%}?order_by=priority">↓ </a>priority<a href="{{target_url}}?order_by=-priority"> ↑</a></th>
     <th><a href="{%url 'request_list'%}?order_by=id">↓ </a>id<a href="{{target_url}}?order_by=-id"> ↑</a></th>
     <th><a href="{%url 'request_list'%}?order_by=time">↓ </a>time<a href="{%url 'request_list'%}?order_by=-time"> ↑</a></th>
     <th><a href="{%url 'request_list'%}?order_by=method">↓ </a>method<a href="{%url 'request_list'%}?order_by=-method"> ↑</a></th>
@@ -14,21 +16,30 @@
   </tr>
 {% for request in request_list %}
 <tr>
-  <td>
+  <td class="center">
+    {{request.priority}}
+  </td>
+  <td class="center">
     {{request.id}}
   </td>
   <td>
     {{request.time|date:"Y.m.d H:i:s"}}
   </td>
-  <td>
+  <td class="center">
     {{request.method}}
   </td>
   <td>
     {{request.path}}
   </td>
-  <td>
+  <td class="center">
     {{request.user}}
   </td>
+  {% if user.is_staff %}
+  <td>
+    <a  href="{% admin_edit request %}">✎</a>
+  </td>
+   {% endif %}
+
 </tr>
 {% endfor %}
 </table>
