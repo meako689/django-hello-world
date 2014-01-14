@@ -81,9 +81,19 @@ class TestViews(TestCase):
         unwanted_req = RecordedRequest.objects.latest('path')
         self.assertFalse(unwanted_req in response.context['request_list'])
 
+
+        priv_req = RecordedRequest.objects.first()
+        priv_req.priority=1
+        priv_req.save()
+        response = self.c.get(reverse('request_list'), {'order_by':'-priority'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.u.username)
+        self.assertEqual(RecordedRequest.objects.count(),14)
+        self.assertEqual(priv_req.id, response.context['request_list'][0].id)
+
         response = self.c.get(reverse('request_list'), {'order_by':'wat'})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(RecordedRequest.objects.count(),14)
+        self.assertEqual(RecordedRequest.objects.count(),15)
         self.assertEqual(len(response.context['request_list']), 10)
 
 class TestContextProcessor(TestCase):

@@ -60,6 +60,11 @@ form.usereditform label{
 .ajaxsubmit.enabled{
     color:black!important;
 }
-th a {
+th a, td a {
     text-decoration:none;
+}
+
+.center{
+    text-align:center;
+
 }
