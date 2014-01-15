@@ -11,7 +11,7 @@ from django.conf import settings
 
 class RecordedRequest(models.Model):
     """Database stored representation of HttpRequest object"""
-    priority = models.SmallIntegerField(default=0)
+    priority = models.SmallIntegerField(default=0, blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True)
     body = models.TextField(null=True,blank=True)
     path = models.CharField(max_length=1024)
